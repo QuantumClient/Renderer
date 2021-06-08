@@ -1,7 +1,10 @@
 package org.quantumclient.renderer.text;
 
+import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.util.math.MatrixStack;
+import org.lwjgl.opengl.GL11;
+
 
 import java.awt.*;
 
@@ -37,7 +40,7 @@ public class FontRenderer {
     public void drawString(MatrixStack matrix, String s, float x, float y, boolean shadow, Color color) {
 
         if(shadow) {
-            RenderSystem.color4f(0, 0, 0, 0.8f);
+            GL11.glColor4f(0, 0, 0, 0.8f);
 
             float shadowX = (x + 0.2f);
             for(int i = 0; i < s.length(); i++) {
@@ -45,10 +48,10 @@ public class FontRenderer {
                 if(c == 167 && i + 1 < s.length()) ++i;
                 else shadowX += font.drawChar(matrix, c, shadowX, y);
             }
-            RenderSystem.color4f(1, 1, 1, 1);
+            GL11.glColor4f(1, 1, 1, 1);
         }
 
-        RenderSystem.color4f(color.getRed() / 255.0f, color.getGreen() / 255.0f, color.getBlue() / 255.0f, color.getAlpha() / 255.0f);
+        GL11.glColor4f(color.getRed() / 255.0f, color.getGreen() / 255.0f, color.getBlue() / 255.0f, color.getAlpha() / 255.0f);
         drawString(matrix, s, x, y);
 
     }
@@ -72,7 +75,7 @@ public class FontRenderer {
         float red = (float) (color >> 16 & 255) / 255.0F;
         float blue = (float) (color >> 8 & 255) / 255.0F;
         float green = (float) (color & 255) / 255.0F;
-        RenderSystem.color4f(red, blue, green, 1);
+        GL11.glColor4f(red, blue, green, 1);
     }
 
     public float getWidth(String s) {

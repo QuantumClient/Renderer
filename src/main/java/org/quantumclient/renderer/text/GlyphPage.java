@@ -1,10 +1,7 @@
 package org.quantumclient.renderer.text;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import net.minecraft.client.render.BufferBuilder;
-import net.minecraft.client.render.BufferRenderer;
-import net.minecraft.client.render.Tessellator;
-import net.minecraft.client.render.VertexFormats;
+import net.minecraft.client.render.*;
 import net.minecraft.client.texture.AbstractTexture;
 import net.minecraft.client.texture.NativeImage;
 import net.minecraft.client.texture.NativeImageBackedTexture;
@@ -120,7 +117,7 @@ public class GlyphPage {
 
             Matrix4f matrices = matrix.peek().getModel();
             BufferBuilder bufferBuilder = Tessellator.getInstance().getBuffer();
-            bufferBuilder.begin(7, VertexFormats.POSITION_TEXTURE);
+            bufferBuilder.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_TEXTURE);
             bufferBuilder.vertex(matrices, x, y + scaledHeight, 0).texture( texX, texY + texHeight).next();
             bufferBuilder.vertex(matrices, x + scaledWidth,  y + scaledHeight, 0).texture( texX + texWidth,  texY + texHeight).next();
             bufferBuilder.vertex(matrices, x + scaledWidth, y, 0).texture( texX + texWidth, texY).next();
@@ -130,7 +127,6 @@ public class GlyphPage {
             RenderSystem.enableBlend();
             RenderSystem.disableDepthTest();
             RenderSystem.enableTexture();
-            RenderSystem.disableLighting();
             RenderSystem.disableCull();
             RenderSystem.lineWidth(1);
             BufferRenderer.draw(bufferBuilder);
